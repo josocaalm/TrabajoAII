@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de items{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Estos son los items del sistema y tiendas donde se venden.</h4>
+ 			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+			          <th>Nombre</th>
+			          <th>Tiendas</th>
+			        </tr>
+				</thead>
+				<tbody>
+					{% for item in items %}
+						<tr>
+		 					<td>{{item.name}}</td>
+		 					<td>
+		 						<ul>
+		 							
+		 							{% for shop in item.shops.all %}
+		 								<li>{{shop.name}}, {{shop.url}}</li>
+		 							{% endfor %}
+		 						</ul>
+		 					</td>
+	 					<tr>
+	 				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}	

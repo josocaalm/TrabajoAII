@@ -1,0 +1,34 @@
+{% extends 'Base.html' %}
+
+{% block titulo %}Recomendaciones{% endblock %}
+
+{% block content %}
+
+	{% if showForm %}
+
+	<form id='form' method='post' action=''>{% csrf_token %}
+		{{form.as_p}}
+		<p><input type='submit' value='Buscar'/></p>
+	</form>
+	
+	{% endif %}
+	
+	{% if not showForm %}	
+		
+		{% if recommendations|length > 0 %}
+	
+			<h1>Productos recomendados</h1>
+			
+			{% for r in recommendations|slice:":2" %}	
+			<ul>	
+				<li>Nombre: {{r.1}} , {{r.0}}</li> 
+			</ul>
+			{% endfor %}
+
+		{% else %}
+	    	None
+		{% endif %}
+	
+	{% endif %}
+	
+{% endblock %}
