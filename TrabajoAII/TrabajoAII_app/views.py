@@ -5,16 +5,18 @@ from TrabajoAII_app.models import *
 from django.template import RequestContext
 from TrabajoAII_app.forms import SearchUserForm
 from TrabajoAII_app.recommendations import *
+from launch.launch import launch_game_list_search
 
 
 def index(request):
     return render_to_response("index.html")
 
-#Apartado a)
-# def list_items(request):
-#     items = Item.objects.all()
-#     return render_to_response("items.html", {'items':items})
-#  
+def search(request):
+    query = request.GET["q"]
+    games = launch_game_list_search(query)[1]
+    print(games)
+    return render_to_response("search.html", {'games':games, "query": query})
+  
 # #Apartado b)
 # def list_users(request):
 #     users = UserApp.objects.all()

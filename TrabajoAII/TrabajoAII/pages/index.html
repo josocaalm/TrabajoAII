@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Página principal{% endblock %}
+{% block title %} Main page {% endblock %}
 
 {% block content %}
+
 <div class="container">
 	<div class="row">
+	
 		<div class="col-md-12 text-center">
-			<h1>Seleccione una opción del menú superior.</h1>
+			<h1>Welcome to TF2 Outpost price searcher!</h1>
 		</div>
+		
+		<br/>
+		
+		<form class=".form-inline" action="/search">
+        	<div class="input-group">
+            	<input type="text" class="form-control" placeholder="Search..." name="q">
+            		<div class="input-group-btn">
+                		<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            		</div>
+        	</div>
+        </form>
+        
 	</div>
 </div>
+
 {% endblock %}
