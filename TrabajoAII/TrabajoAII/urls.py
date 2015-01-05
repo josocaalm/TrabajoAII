@@ -9,8 +9,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'TrabajoAII_app.views.index'),
-    url(r'^list_items', 'TrabajoAII_app.views.list_items'),
-    url(r'^list_users', 'TrabajoAII_app.views.list_users'),
-    url(r'^recommend', 'TrabajoAII_app.views.recommend'),
+#     url(r'^list_items', 'TrabajoAII_app.views.list_items'),
+#     url(r'^list_users', 'TrabajoAII_app.views.list_users'),
+#     url(r'^recommend', 'TrabajoAII_app.views.recommend'),
     url(r'^admin/', include(admin.site.urls)),
 )
