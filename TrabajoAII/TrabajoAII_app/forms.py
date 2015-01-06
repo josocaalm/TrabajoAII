@@ -7,3 +7,7 @@ from TrabajoAII_app.models import *
 
 class SearchUserForm(forms.Form):
     username = forms.CharField()
+    
+class loginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)

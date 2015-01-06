@@ -1,41 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}Displaying results for {{query}} {% endblock %}
+{% block title %} Buscar ofertas {% endblock %}
 
 {% block content %}
-<div class="container">
 
+<div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<h4>Results found: {{games|length}}</h4>
-			<br/>
-			
-			{% if games|length > 0 %}
- 				<table class="table table-hover table-bordered">
-				<tbody>
-				{% for game in games %}
-					<tr>
-						<td><img src={{game.1}} /></td>
-		 				<td>{{game.0}}</td>
-		 				<td>
-		 					<form class="form in-line" action="/offers">
-        						<div class="input-group-btn">
-        							<input class="form-control" type="text" name="currency" placeholder="Insert a ISO currency code" >
-        							<input class="form-control" type="hidden" name="partialId" value={{game.2}} >
-        							<input class="form-control" type="hidden" name="fullId" value={{game.3}} >
-                					<button class="btn btn-success form-control" type="submit">Look for offers</button>
-            						</div>
-        						</div>
-        					</form>
-		 				</td>
-		 			</tr>
-	 			{% endfor %}
-				</tbody>
-				</table>
-			{% else %}
-				<div class="alert alert-danger">No results were found. Try with another words!</div>
-			{% endif %}
+	
+		<div class="col-md-12 text-center">
+			<h1 class="heading">!Bienvenido al buscador de precios de TF2 Outpost!</h1>
 		</div>
+		
+		<br><br><br><br><br>
+		<form class=".form-inline" action="/search">
+        	<div class="input-group" style="padding-left: 300px; padding-right: 300px">
+            	<input type="text" class="form-control" placeholder="Search..." name="q">
+            		<div class="input-group-btn">
+                		<button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            		</div>
+        	</div>
+        </form>
+        
 	</div>
 </div>
-{% endblock %}	
+
+{% endblock %}

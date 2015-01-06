@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+	<div class="panel-body" style="padding-top: 150px; text-align: center;>
+		{% if message %}
+			<div>{{message}}</div>
+		{% endif %}
+		
+		<form method="post" action="">{% csrf_token %}
+			{{form.as_p}}
+	    	<button class="btn btn-success" name="enviar">Entrar</button>
+		</form>
+	</div>
+
+{% endblock %}

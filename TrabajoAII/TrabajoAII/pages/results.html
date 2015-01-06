@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Displaying results for {{query}} {% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<div class="row">
+		<div class="col-md-12">
+			<h4>Results found: {{games|length}}</h4>
+			<br/>
+			
+			{% if games|length > 0 %}
+ 				<table class="table table-hover table-bordered">
+				<tbody>
+				{% for game in games %}
+					<tr>
+						<td><img src={{game.1}} /></td>
+		 				<td>{{game.0}}</td>
+		 				<td>
+		 					<form class="form in-line" action="/offers">
+        						<div class="input-group-btn">
+        							<input class="form-control" type="text" name="currency" placeholder="Insert a ISO currency code" >
+        							<input class="form-control" type="hidden" name="partialId" value={{game.2}} >
+        							<input class="form-control" type="hidden" name="fullId" value={{game.3}} >
+                					<button class="btn btn-success form-control" type="submit">Look for offers</button>
+            						</div>
+        						</div>
+        					</form>
+		 				</td>
+		 			</tr>
+	 			{% endfor %}
+				</tbody>
+				</table>
+			{% else %}
+				<div class="alert alert-danger">No results were found. Try with another words!</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}	

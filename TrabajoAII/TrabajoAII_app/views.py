@@ -1,20 +1,26 @@
 # Create your views here.
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, HttpResponseRedirect
 from django.http import HttpResponse
 from TrabajoAII_app.models import *
 from django.template import RequestContext
-from TrabajoAII_app.forms import SearchUserForm
+from TrabajoAII_app.forms import *
 from TrabajoAII_app.recommendations import *
 from launch.launch import launch_game_list_search
+from django.contrib import auth
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
-
-def index(request):
-    return render_to_response("index.html")
+def cover(request):
+    return render_to_response("cover.html", {'cover':"active"})
 
 def search(request):
+    return render_to_response("search.html", {"search": "active"})
+
+def results(request):
     query = request.GET["q"]
     games = launch_game_list_search(query)[1]
-    return render_to_response("search.html", {'games':games, "query": query})
+    return render_to_response("results.html", {'games':games, "query": query})
 
 def offers(request):
     partialGameId = request.GET["partialId"]
@@ -22,6 +28,35 @@ def offers(request):
     outpostOffers = None # Modificar
     steamOffer = None # Modificar
     return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer})
+
+def contact(request):
+    return render_to_response("contact.html", {"contact": "active"})
+
+def login(request):
+    message = None
+    user = None
+    if request.method == 'POST':
+        form = loginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(username = username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request,user)
+                    return render_to_response('cover.html',{'user': user})
+                else:
+                    message = "Tu usuario esta inactivo"
+            else:
+                message = "Nombre de usuario y/o password incorrectos"
+    else:
+        form = loginForm()
+        return render_to_response('login.html',{'message': message,'form':form}, context_instance= RequestContext(request))
+    pass 
+
+def logout(request):
+    auth.logout(request)
+    return render_to_response('cover.html')
   
 # #Apartado b)
 # def list_users(request):
