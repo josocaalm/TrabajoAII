@@ -14,8 +14,14 @@ def index(request):
 def search(request):
     query = request.GET["q"]
     games = launch_game_list_search(query)[1]
-    print(games)
     return render_to_response("search.html", {'games':games, "query": query})
+
+def offers(request):
+    partialGameId = request.GET["partialId"]
+    fullGameId = request.GET["fullId"]
+    outpostOffers = None # Modificar
+    steamOffer = None # Modificar
+    return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer})
   
 # #Apartado b)
 # def list_users(request):
