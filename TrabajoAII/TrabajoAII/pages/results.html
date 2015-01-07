@@ -15,12 +15,12 @@
 				<tbody>
 				{% for game in games %}
 					<tr>
-						<td><img src={{game.1}}/></td>
-		 				<td><p>{{game.0}}</p></td>
+						<td><img src={{game.1}} alt="{{game.0}}" title="{{game.0}}"/></td>
 		 				<td>
 		 					<form class="form in-line" action="/offers">
 		 						<input type="hidden" name="name" value="{{game.0}}" >
 		 						<input type="hidden" name="fullId" value={{game.3}} >
+		 						<input type="hidden" name="cover"
         						<div class="input-group-btn">
         							<div class="row">
 	        							<div class="col-md-4">
@@ -30,12 +30,12 @@
 		        							<button class="btn btn-success form-control" type="submit">Search</button>
 		        							<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_1" value="fast" checked > Fast search
+													<input type="radio" name="option" id="option_1" value="fast" checked>Fast search
 												</label>
 											</div>
 											<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_2" value="complete" > Complete search
+													<input type="radio" name="option" id="option_2" value="complete">Complete search
 												</label>
 											</div>
 		        						</div>

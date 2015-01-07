@@ -8,8 +8,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 </head>
-<body style="padding-top: 70px; background-color: #2f4f4f; color:#FFFFFF" >
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="padding-right: 70px; background-color: #4f6f6f">
+<body class="homepage" >
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -23,14 +23,14 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav navbar-right">
-					<li class={{cover}}><a href="/" style="color: #ffffff"><strong>Inicio</strong></a></li>
-					<li class={{search}}><a href="/search" style="color: #ffffff"><strong>Buscar</strong></a></li>
-					<li class={{contact}}><a href="/contact" style="color: #ffffff"><strong>Contacto</strong></a></li>
+					<li class={{cover}}><a href="/"><strong>Inicio</strong></a></li>
+					<li class={{search}}><a href="/search"><strong>Buscar</strong></a></li>
+					<li class={{contact}}><a href="/contact"><strong>Contacto</strong></a></li>
 					{% if not user.username %}
-						<li class={{login}}><a href="/login" style="color: #ffffff"><strong>Entrar</strong></a></li>
+						<li class={{login}}><a href="/login"><strong>Entrar</strong></a></li>
 					{% endif %}
 					{% if user.username %}
-						<li><a href="/logout" style="color: #ffffff"><strong>Cerrar sesion</strong></a></li>
+						<li><a href="/logout"><strong>Cerrar sesion</strong></a></li>
 					{% endif %}
 				</ul>
 			</div>
