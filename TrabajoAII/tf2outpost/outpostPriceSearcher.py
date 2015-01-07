@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException
 import utilities.auxFunctions as auxFuncs 
 import backpackTF.tf2keysAndRefs as keysRefsFuncs
+import currency.currencies as curr
 import re
 
 def findOutpostOffers(driver, gameName, maxSearchDepth, currentSearchDepth, foundOffers):
@@ -87,12 +88,23 @@ def extractKeysAndRefsPrice(foundOffers):
             pass
     
     return results
-        
-#         if keyOfferMatch != None and refOfferMatch == None:
-#             print(keyPrice + " // Keys? --> " + str(numOfKeys) + " // Money (USD)? --> " + str(priceOnUSD) + " // " + offer[0] + " // " + offer[1])
-#         if keyOfferMatch != None and refOfferMatch != None:
-#             print(keyPrice + " , " +  refPrice + " // Keys? --> " + str(numOfKeys) + " , Refs? --> " + str(numOfRefs) + " // Money (USD)? --> " + str(priceOnUSD) + " // " + offer[0] + " // " + offer[1])
 
 
 def sortSearchResults(results):
     return sorted(results, key=lambda res: res[2])
+
+
+def convertUSDToSpecifiedCurrency(results, outputCurrency):
+    updatedResults = list()
+    driver = auxFuncs.createWebdriver("https://www.google.com/finance/converter")
+    USDToOutputEquivalence = curr.findConversion("USD", outputCurrency, driver)
+    auxFuncs.quitWebdriver(driver)
+    
+    for offer in results:
+        priceOnUSD = offer[2]
+        priceOnOutputCurrency = round(priceOnUSD * USDToOutputEquivalence, 2)
+        newOffer = offer + (priceOnOutputCurrency,)
+        updatedResults.append(newOffer)   
+    
+    return updatedResults
+        

@@ -12,6 +12,7 @@ driver = gamesearch.enterToSearchPage(driver)
 foundOffers = pricesearch.findOutpostOffers(driver, "Terraria", 20, 1, [])
 results = pricesearch.extractKeysAndRefsPrice(foundOffers)
 sortedResults = pricesearch.sortSearchResults(results)
+finalResults = pricesearch.convertUSDToSpecifiedCurrency(sortedResults, "EUR")
 
-for res in sortedResults:
+for res in finalResults:
     print(res)

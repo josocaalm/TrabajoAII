@@ -7,9 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common import by
 from bs4 import BeautifulSoup
-import utilities.auxFunctions as auxFuncs
 from urllib.request import urlopen
-import tf2outpost.loginThroughSteam as login
 
 def prepareSearchForm(inputText, driver):
     driver.execute_script("document.getElementById('gameid').setAttribute('style', '')")
@@ -75,10 +73,6 @@ def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
         steamID = steamID.replace("/", "")    
     
     return [driver, int(steamID)]
-
-def recoverGameNameFromSearchPage(driver):
-    nameElem = driver.find_element_by_class_name("name it_753_6")
-    return nameElem.text
 
 
 def enterToSearchPage(driver):

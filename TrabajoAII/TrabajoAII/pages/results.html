@@ -19,11 +19,10 @@
 		 				<td><p>{{game.0}}</p></td>
 		 				<td>
 		 					<form class="form in-line" action="/offers">
-		 						<input type="hidden" name="name" value={{game.0}} >
+		 						<input type="hidden" name="name" value="{{game.0}}" >
+		 						<input type="hidden" name="fullId" value={{game.3}} >
         						<div class="input-group-btn">
         							<div class="row">
-        								<input class="form-control" type="hidden" name="partialId" value={{game.2}} >
-	        							<input class="form-control" type="hidden" name="fullId" value={{game.3}} >
 	        							<div class="col-md-4">
 		        							<input class="form-control" type="text" name="currency" placeholder="Insert a ISO currency code" >
 		        						</div>
@@ -31,12 +30,12 @@
 		        							<button class="btn btn-success form-control" type="submit">Search</button>
 		        							<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_1" value="option_1" checked>Fast search
+													<input type="radio" name="option" id="option_1" value="fast" checked > Fast search
 												</label>
 											</div>
 											<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_2" value="option_2"> Complete search
+													<input type="radio" name="option" id="option_2" value="complete" > Complete search
 												</label>
 											</div>
 		        						</div>

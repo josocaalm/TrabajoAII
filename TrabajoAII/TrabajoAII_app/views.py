@@ -19,17 +19,19 @@ def search(request):
 
 def results(request):
     query = request.GET["q"]
-    games = launch_game_list_search(query)[1]
+    driverAndGames = launch_game_list_search(query)
+    quitWebdriver(driverAndGames[0])
     
-    return render_to_response("results.html", {'games':games, "query": query})
+    return render_to_response("results.html", {'games':driverAndGames[1], "query": query})
 
 def offers(request):
     fullGameId = request.GET["fullId"]
     option = request.GET["option"]
-    name = ""
+    name = request.GET["name"]
+    currency = request.GET["currency"]
     
-    if option == "option_1":
-        outpostOffers = launch_fast_offer_search(name, fullGameId)
+    if option == "fast":
+        outpostOffers = launch_fast_offer_search(name, fullGameId, currency)
         
     return render_to_response("offers.html", {'outpostOffers':outpostOffers})
 
