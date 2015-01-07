@@ -9,6 +9,7 @@ from selenium.webdriver.common import by
 from bs4 import BeautifulSoup
 import utilities.auxFunctions as auxFuncs
 from urllib.request import urlopen
+import tf2outpost.loginThroughSteam as login
 
 def prepareSearchForm(inputText, driver):
     driver.execute_script("document.getElementById('gameid').setAttribute('style', '')")
@@ -36,7 +37,6 @@ def retrieveListOfGames(driver):
     for elem in driver.find_elements_by_xpath("//li[@class='item it_753_6']"):
         if elem.get_attribute("data-subtitle") == "Gift":
             name = elem.get_attribute("data-name")
-            
             coverHTMLFragment = driver.find_element_by_xpath('//li[a[span[img[@alt="' + name + '"]]]]').get_attribute("innerHTML")
             coverHTMLSoup = BeautifulSoup(coverHTMLFragment)
             coverString = coverHTMLSoup.find("img")["src"]
@@ -75,6 +75,10 @@ def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
         steamID = steamID.replace("/", "")    
     
     return [driver, int(steamID)]
+
+def recoverGameNameFromSearchPage(driver):
+    nameElem = driver.find_element_by_class_name("name it_753_6")
+    return nameElem.text
 
 
 def enterToSearchPage(driver):

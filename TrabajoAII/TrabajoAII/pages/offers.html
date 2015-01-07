@@ -7,32 +7,19 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			<h4>Results found: {{games|length}}</h4>
+			<h4>Results found: {{outpostOffers|length}}</h4>
 			<br/>
 			
-			{% if games|length > 0 %}
+			{% if outpostOffers|length > 0 %}
  				<table class="table table-hover table-bordered">
 				<tbody>
-				{% for game in games %}
-					<tr>
-						<td><img src={{game.1}} /></td>
-		 				<td>{{game.0}}</td>
-		 				<td>
-		 					<form action="/offers">
-        						<div class="input-group-btn">
-        							<input type="hidden" name="partialId" value={{game.2}} >
-        							<input type="hidden" name="fullId" value={{game.3}} >
-                					<button class="btn btn-success" type="submit">Look for offers</button>
-            						</div>
-        						</div>
-        					</form>
-		 				</td>
-		 			</tr>
+				{% for outpostOffer in outpostOffers %}
+					<p>{{outpostOffer.0}}, {{outpostOffer.1}}, {{outpostOffer.2}}, {{outpostOffer.3}}</p>
 	 			{% endfor %}
 				</tbody>
 				</table>
 			{% else %}
-				<div class="alert alert-danger">No results were found. Try with another words!</div>
+				<div class="alert alert-danger">No results were found. You should wait until traders starts offering!</div>
 			{% endif %}
 		</div>
 	</div>

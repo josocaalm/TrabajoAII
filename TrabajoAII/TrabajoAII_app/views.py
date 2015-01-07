@@ -5,7 +5,7 @@ from TrabajoAII_app.models import *
 from django.template import RequestContext
 from TrabajoAII_app.forms import *
 from TrabajoAII_app.recommendations import *
-from launch.launch import launch_game_list_search
+from launch.launch import *
 from django.contrib import auth
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -20,14 +20,18 @@ def search(request):
 def results(request):
     query = request.GET["q"]
     games = launch_game_list_search(query)[1]
+    
     return render_to_response("results.html", {'games':games, "query": query})
 
 def offers(request):
-    partialGameId = request.GET["partialId"]
     fullGameId = request.GET["fullId"]
-    outpostOffers = None # Modificar
-    steamOffer = None # Modificar
-    return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer})
+    option = request.GET["option"]
+    name = ""
+    
+    if option == "option_1":
+        outpostOffers = launch_fast_offer_search(name, fullGameId)
+        
+    return render_to_response("offers.html", {'outpostOffers':outpostOffers})
 
 def contact(request):
     return render_to_response("contact.html", {"contact": "active"})

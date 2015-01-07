@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'twitter_bootstrap',
     'TrabajoAII_app',
 )
 
