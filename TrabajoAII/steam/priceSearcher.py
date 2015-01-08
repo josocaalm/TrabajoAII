@@ -13,10 +13,11 @@ def findGamePriceAndDetailsByID(gameID):
     isoCountryCodesDict = iso.ISO3166CodeToCountry()
          
     for code in isoCountryCodesDict.keys():
-        url = "http://store.steampowered.com/api/appdetails/?appids=" + str(gameID) + "&cc=" + code + "&l=english&v=1"
+        url = "http://store.steampowered.com/api/appdetails/?appids=" + str(gameID) + "&cc=" + code + "&l=english"
         
         try:
             html = urlopen(url).read()
+            print(html)
     
             jsonData = json.loads(html.decode("utf-8"))
             
@@ -28,15 +29,15 @@ def findGamePriceAndDetailsByID(gameID):
             
             gamePrice = float(gamePrice[:len(gamePrice)-2] + "." + gamePrice[len(gamePrice)-2:])
             gamePriceDiscount = float(gamePriceDiscount[:len(gamePriceDiscount)-2] + "." + gamePriceDiscount[len(gamePriceDiscount)-2:])
-    
+                
             res = (gameID, code, isoCountryCodesDict[code], gamePrice, discount, gamePriceDiscount, gameName)
-              
+                        
             if priceCurrency in dictCurrencyAndGameDetails.keys() and gamePrice < dictCurrencyAndGameDetails[priceCurrency][3]:
                 del dictCurrencyAndGameDetails[priceCurrency]
                 dictCurrencyAndGameDetails[priceCurrency] = res
             if priceCurrency not in dictCurrencyAndGameDetails.keys():
                 dictCurrencyAndGameDetails[priceCurrency] = res
-                        
+                                        
         except HTTPError:
             pass
      

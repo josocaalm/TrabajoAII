@@ -51,7 +51,7 @@ def retrieveListOfGames(driver):
 
 def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
     driver.get("http://www.tf2outpost.com/item/" + tf2outpostFullID)
-    steamFakeLinkElem = WebDriverWait(driver,2).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
+    steamFakeLinkElem = WebDriverWait(driver,10).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
     steamFakeLink = steamFakeLinkElem.get_attribute("href")
     
     soup = BeautifulSoup(urlopen(steamFakeLink))

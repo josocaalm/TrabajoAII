@@ -29,11 +29,17 @@ def offers(request):
     option = request.GET["option"]
     name = request.GET["name"]
     currency = request.GET["currency"]
+    cover = request.GET["cover"]
     
-    if option == "fast":
-        outpostOffers = launch_fast_offer_search(name, fullGameId, currency)
-        
-    return render_to_response("offers.html", {'outpostOffers':outpostOffers})
+    outpostOffers = launch_tf2outpost_offer_search(name, fullGameId, currency)
+    if option == "complete":
+        steamOffer = launch_steam_best_offer(fullGameId, currency)
+        return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer, "cover": cover, "currency": currency})
+    
+    return render_to_response("offers.html", {'outpostOffers':outpostOffers, "cover": cover, "currency": currency})
+
+def signin(request):
+    return render_to_response("signin.html")
 
 def contact(request):
     return render_to_response("contact.html", {"contact": "active"})
@@ -57,7 +63,7 @@ def login(request):
                 message = "Nombre de usuario y/o password incorrectos"
     else:
         form = loginForm()
-        return render_to_response('login.html',{'message': message,'form':form}, context_instance= RequestContext(request))
+        return render_to_response('login.html',{'message': message,'form':form, "login": "active"}, context_instance= RequestContext(request))
     pass 
 
 def logout(request):

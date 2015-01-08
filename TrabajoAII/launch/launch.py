@@ -4,6 +4,7 @@ from tf2outpost.loginThroughSteam import loginAndRedirectToSearchPage
 from tf2outpost.gameSearch import *
 from tf2outpost.outpostPriceSearcher import *
 from utilities.auxFunctions import *
+from steam.priceSearcher import *
 
 def launch_game_list_search(query):
     driver = loginAndRedirectToSearchPage()
@@ -12,7 +13,7 @@ def launch_game_list_search(query):
     
     return driverAndGameList
 
-def launch_fast_offer_search(name, fullId, outputCurrency):
+def launch_tf2outpost_offer_search(name, fullId, outputCurrency):
     driver = loginAndRedirectToSearchPage()
     driver = prepareSearchForm(name, driver)
     driver = retrieveListOfGames(driver)[0]
@@ -25,3 +26,14 @@ def launch_fast_offer_search(name, fullId, outputCurrency):
     finalResults = convertUSDToSpecifiedCurrency(sortedResults, outputCurrency)
     
     return finalResults
+
+def launch_steam_best_offer(fullId, outputCurrency):
+    driver = createWebdriver("http://www.tf2outpost.com")
+    steamId = fromTF2OutpostIDToSteamID(driver, fullId)
+    quitWebdriver(driver)
+    
+    dictGamesAndDetails = findGamePriceAndDetailsByID(steamId)
+    priceConversions = priceConversion(outputCurrency, dictGamesAndDetails)
+    lowestPriceInfo = findLowestPrice(priceConversions)
+    
+    return lowestPriceInfo

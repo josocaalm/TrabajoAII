@@ -1,14 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %}Displaying results for {{query}} {% endblock %}
+{% block title %}Available offers for {{name}} {% endblock %}
 
 {% block content %}
 <div class="container">
 
 	<div class="row">
 		<div class="col-md-12">
-			<h4>Results found: {{outpostOffers|length}}</h4>
+			<h4>Steam best offer</h4>
 			<br/>
+			
+			{% if steamOffer|length > 0 %}
+ 				<table class="table table-hover table-bordered">
+				<thead>
+        			<tr>
+        				<th>Cover</th>
+            			<th>Title</th>
+            			<th>Steam ID</th>
+            			<th>Region</th>
+            			<th>Steam store (country)</th>
+            			<th>Price on {{steamOffer.5}}</th>
+            			<th>Price on {{steamOffer.7}}</th>
+        			</tr>
+    			</thead>
+    			<tbody>
+					<td><img src={{cover}} /></td>
+					<td> {{steamOffer.3}} </td>
+					<td> {{steamOffer.0}} </td>
+					<td> {{steamOffer.1}} </td>
+					<td> {{steamOffer.2}} </td>
+					<td> {{steamOffer.4}} </td> 
+					<td> {{steamOffer.6}} </td>
+				</tbody>
+				</table>
+			{% endif %}
+			
+			
+			<h4>TF2 Outpost offers ({{ outpostOffers|length }} results found)</h4>
 			
 			{% if outpostOffers|length > 0 %}
  				<table class="table table-hover table-bordered">
