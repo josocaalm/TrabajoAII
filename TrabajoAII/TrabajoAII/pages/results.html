@@ -18,7 +18,7 @@
 		 					<form class="form in-line" action="/offers">
 		 						<input type="hidden" name="name" value="{{game.0}}" >
 		 						<input type="hidden" name="fullId" value={{game.3}} >
-		 						<input type="hidden" name="cover"
+		 						<input type="hidden" name="cover" value="{{game.0}}" >
         						<div class="input-group-btn">
         							<div class="row">
 	        							<div class="col-md-4">
@@ -26,17 +26,19 @@
 		        						</div>
 		        						<div class="col-md-2">
 		        							<button class="btn btn-success form-control" type="submit">Search</button>
-		        							<div class="radio">
+		        						</div>
+	        							<div class="col-md-3">
+	        								<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_1" value="fast" checked>Fast search
+													<input class="text-muted credit" type="radio" name="option" id="option_1" value="fast" checked>Fast search
 												</label>
 											</div>
 											<div class="radio">
 												<label>
-													<input type="radio" name="option" id="option_2" value="complete">Complete search
+													<input class="text-muted credit" type="radio" name="option" id="option_2" value="complete">Complete search
 												</label>
 											</div>
-		        						</div>
+	        							</div>
 	        						</div>	
 	                			</div>
         					</form>

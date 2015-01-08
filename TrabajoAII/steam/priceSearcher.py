@@ -33,7 +33,7 @@ def findGamePriceAndDetailsByID(gameID):
             gamePrice = float(gamePrice[:len(gamePrice)-2] + "." + gamePrice[len(gamePrice)-2:])
             gamePriceDiscount = float(gamePriceDiscount[:len(gamePriceDiscount)-2] + "." + gamePriceDiscount[len(gamePriceDiscount)-2:])
                 
-            res = (gameID, code, isoCountryCodesDict[code], gamePrice, discount, gamePriceDiscount, gameName)
+            res = (gameID, code, isoCountryCodesDict[code], gamePrice, discount, round(gamePriceDiscount, 2), gameName)
                         
             if priceCurrency in dictCurrencyAndGameDetails.keys() and gamePrice < dictCurrencyAndGameDetails[priceCurrency][3]:
                 del dictCurrencyAndGameDetails[priceCurrency]

@@ -85,7 +85,7 @@ def contact(request):
             recipients = ["jaylodet@gmail.com", "boliri@gmail.com"]
             subject = form.cleaned_data['subject'] 
             body = "Message from "+form.cleaned_data['sender'] + ": \n\n" + form.cleaned_data['body']
-                
+            
             msg = MIMEText(body, 'plain', 'utf-8')
             msg['Subject'] = Header(subject, 'utf-8')
             msg['From'] = login
