@@ -6,20 +6,23 @@ import isoCurrenciesCountries.ISOCodes as iso
 import currency.currencies as currency
 import utilities.auxFunctions as utilsFuncs
 import json
+from utilities.auxFunctions import createWebdriver, quitWebdriver
  
  
 def findGamePriceAndDetailsByID(gameID):
     dictCurrencyAndGameDetails = dict()
     isoCountryCodesDict = iso.ISO3166CodeToCountry()
-         
-    for code in isoCountryCodesDict.keys():
-        url = "http://store.steampowered.com/api/appdetails/?appids=" + str(gameID) + "&cc=" + code + "&l=english"
-        
-        try:
-            html = urlopen(url).read()
-            print(html)
     
-            jsonData = json.loads(html.decode("utf-8"))
+    driver = createWebdriver("http://www.google.com")
+         
+    try:
+        for code in isoCountryCodesDict.keys():
+            url = "http://store.steampowered.com/api/appdetails/?appids=" + str(gameID) + "&cc=" + code + "&l=english"
+            
+            driver.get(url)
+            jsonAsString = driver.find_element_by_tag_name("pre").text
+    
+            jsonData = json.loads(jsonAsString)
             
             gamePrice = str(jsonData[str(gameID)]["data"]["price_overview"]["initial"])
             priceCurrency = jsonData[str(gameID)]["data"]["price_overview"]["currency"]
@@ -37,9 +40,12 @@ def findGamePriceAndDetailsByID(gameID):
                 dictCurrencyAndGameDetails[priceCurrency] = res
             if priceCurrency not in dictCurrencyAndGameDetails.keys():
                 dictCurrencyAndGameDetails[priceCurrency] = res
-                                        
-        except HTTPError:
-            pass
+                
+            print(dictCurrencyAndGameDetails)
+    except:
+        pass
+            
+    quitWebdriver(driver)
      
     return dictCurrencyAndGameDetails
      

@@ -17,8 +17,8 @@ def launch_tf2outpost_offer_search(name, fullId, outputCurrency):
     driver = loginAndRedirectToSearchPage()
     driver = prepareSearchForm(name, driver)
     driver = retrieveListOfGames(driver)[0]
-    driver = fromTF2OutpostIDToSteamID(driver, fullId)[0]
-    driver = enterToSearchPage(driver)
+    driverAndId = fromTF2OutpostIDToSteamID(driver, fullId)
+    driver = enterToSearchPage(driverAndId[0])
     
     foundOffers = findOutpostOffers(driver, name, 20, 1, [])
     results = extractKeysAndRefsPrice(foundOffers)
@@ -29,7 +29,7 @@ def launch_tf2outpost_offer_search(name, fullId, outputCurrency):
 
 def launch_steam_best_offer(fullId, outputCurrency):
     driver = createWebdriver("http://www.tf2outpost.com")
-    steamId = fromTF2OutpostIDToSteamID(driver, fullId)
+    steamId = fromTF2OutpostIDToSteamID(driver, fullId)[1]
     quitWebdriver(driver)
     
     dictGamesAndDetails = findGamePriceAndDetailsByID(steamId)
