@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
-
-{% block title %} Tusmuertodanie {% endblock %}
-
+{% block title %} Contact us {% endblock %}
 {% block content %}
 
-<div class="container">
-	<div class="row">
-	
-		<div class="col-md-12 text-center">
-			<h1>Contact us</h1>
+	<div class="container">
+		<div class="row">
+			<div class=col-xs-7>
+				<h1 class="heading">Contact us</h1>
+				<div style="color: grey">
+					<form method='post' action=''>{% csrf_token %}
+						{{form.as_p}}
+					<button class="btn btn-success" type='submit' value="save">Send email</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<h3 class="heading">What's in a great support request?</h3>
+				<p>&#8226; Provide us with as much essential information as possible.</p>
+				<p>&#8226; Let us know the name of the user or service you're having trouble with.</p>
+				<p>&#8226; Send along any links that are related to your problem.</p>
+			</div>
 		</div>
-		
-		<br/>
-		
-		
-        
 	</div>
-	<div class="alert alert-success">
-    		<strong>Bien hecho!</strong> Has leido correctamente este mensaje tan importante.
-  	</div>
-</div>
+	
 
 {% endblock %}

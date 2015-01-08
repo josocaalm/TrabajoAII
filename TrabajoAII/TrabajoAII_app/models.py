@@ -1,18 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Create your models here.
 class UserApp(User):
-    birthdate = models.DateField()
-    searchs = models.ManyToManyField("Game", through="Search")
+    games = models.ManyToManyField("Game", through="Rating")
+    def __unicode__(self):
+        return self.first_name + ' ' + self.last_name
 
-
-class Search(models.Model):
-    user = models.ForeignKey("UserApp")
-    shop = models.ForeignKey("Game")
-
+class Rating(models.Model):
+    rating = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)])
+    pelicula = models.ForeignKey("Game")
+    usuario = models.ForeignKey("UserApp")
+    
+    def __str__(self):
+        return str(self.puntuacion)
 
 class Game(models.Model):
     name = models.TextField()
     steamID = models.TextField()
+    
+    def __unicode__(self):
+        return self.name
+    
+    
+    
+    

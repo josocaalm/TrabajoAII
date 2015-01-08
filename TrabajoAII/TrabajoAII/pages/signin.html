@@ -1,32 +1,15 @@
 {% extends 'base.html' %}
-
-{% block title %} Games searcher {% endblock %}
-
+{% block title %} Registration {% endblock %}
 {% block content %}
 
-			<div class="container text-center">
-				<h1 class="heading">Sign in</h1>
-				<div style="color:#000">
-		    	<form accept-charset="UTF-8" action="/register" autocomplete="off" class="form-signup-home js-form-signup-home" method="post">       
-					<dl class="form">
-		        		<dd>
-							<input type="text" name="username" class="textfield" placeholder="Pick a username" autofocus="">
-		          		</dd>
-		       		</dl>
-		        	<dl class="form">
-		          		<dd>
-		            		<input type="text" name="email" class="textfield js-email-notice-trigger" placeholder="Your email">
-		         		</dd>
-		        	</dl>
-		        	<dl class="form">
-		          		<dd>
-		            		<input type="password" name="password" class="textfield" placeholder="Create a password">
-		          		</dd>
-		        	</dl>
-		            <button class="btn btn-success" type="submit">Register</button>
-		        	
-				</form>
-				</div>
-			</div>
-	
+	<div class="container">
+		<h1 class="heading">Sign in</h1>
+		<div style="color: grey">
+			<form method='post' action=''>{% csrf_token %}
+				{{form.as_p}}
+			<button class="btn btn-success" type='submit' value="save">Register</button>
+			</form>
+		</div>
+	</div>
+
 {% endblock %}

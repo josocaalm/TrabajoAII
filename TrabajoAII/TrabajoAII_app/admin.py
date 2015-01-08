@@ -5,4 +5,4 @@ from TrabajoAII_app.models import *
 
 admin.site.register(UserApp)
 admin.site.register(Game)
-admin.site.register(Search)
+admin.site.register(Rating)

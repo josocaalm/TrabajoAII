@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
-
 {% block title %} Games searcher {% endblock %}
-
 {% block content %}
 
-	<div class="container">
-                        <div class="row slide-margin">
-                            <div class="col-sm-6">
-                                <div class="carousel-content-inverse">
-                                    <h1 class="cover-heading">Find the best offers with just one click.</h1>
-                                    <h2 class="lead">Simple, easy and free solution to find cheap games. Sign in to receive personalized recommendations!</h2>
-                                    <a class="btn btn-success btn-default" href="/signin">Sign in</a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+	{% if message %}
+		<div class="container text-center">
+			<div class="alert alert-success">{{message}}</div>
+		</div>
+	{% endif %}
+	{% if errorMessage %}
+		<div class="container text-center">
+			<div class="alert alert-danger">{{errorMessage}}</div>
+		</div>
+	{% endif %}
+    <div class="container">	
+    	<div class="row slide-margin">
+        	<div class="col-sm-6">
+            	<div class="carousel-content-inverse">
+                	<h1 class="cover-heading">Find the best offers with just one click.</h1>
+                    <h2 class="lead">Simple, easy and free solution to find cheap games. Sign in to receive personalized recommendations!</h2>
+                    <a class="btn btn-success btn-default" href="/signin">Sign in</a>
+                    {% if registered %}
+						<span class="alert alert-danger">You're already registered!</span>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}
