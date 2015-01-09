@@ -15,6 +15,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, authenticate, logout
 from currency.currencies import *
 from _codecs import encode
+from django.contrib.auth import get_user
 
 def cover(request):
     user= request.user
@@ -41,6 +42,8 @@ def results(request):
         for elem in gamesPrimitive:
             steamId = fromTF2OutpostIDToSteamID(driverAndGames[0],elem[3])[1]
             game = Game(name = elem[0], coverString = elem[1], tf2outpostPartialID = elem[2], tf2outpostFullID = elem[3], steamID = steamId)
+            if Game.objects.filter(steamID = steamId).exists() != True:
+                game.save()
             games.append(game)
         
         quitWebdriver(driverAndGames[0])
@@ -155,13 +158,17 @@ def exitt(request):
     auth.logout(request)
     return render_to_response('cover.html')
 
+@login_required(login_url="/enter")
 def rate(request):
-    user=request.user
+    user = request.user
+    userApp = UserApp.objects.filter(username = user.username).first()
+    
     try:
-        rating = request.GET["r"]
-        game = Game(request.GET["game"])
+        rat = request.GET["r"]
+        steamId = request.GET["gameSteamId"]
+        gam = Game.objects.filter(steamID = steamId).first()
         
-        gameRating = Rating(rating,game,user)
+        gameRating = Rating(rating = rat, game = gam, userApp = userApp)
         gameRating.save()
         
         message = "Game successfully rated."
@@ -169,51 +176,26 @@ def rate(request):
     except:
         errorMessage = "There was a problem while searching the game. Please do not interact with the Firefox emergent window."
         return render_to_response("cover.html", {"cover":"active","user":user, "errorMessage": errorMessage})
-  
-# #Apartado b)
-# def list_users(request):
-#     users = UserApp.objects.all()
-#     itemRats = ItemRating.objects.all()
-#      
-#     return render_to_response("users.html", {'users':users, 'itemRats':itemRats})
-#  
-# #Apartado c)
-#  
-# def recommend(request):
-#     if request.method == 'POST':
-#         form = SearchUserForm(request.POST)
-#         if form.is_valid():
-#             username2 = request.POST['username']    
-#             userEntrada = UserApp.objects.all().filter(username = username2)
-#             co=""
-#             for userAux in userEntrada:
-#                 co=userAux
-#              
-#             users = UserApp.objects.all()      
-#      
-#             ratingDic1 = {}    
-#              
-#             for user in users:
-#                 itemsRating = ItemRating.objects.all().filter(user = user)
-#                 ratingDic2 = {}       
-#                 for rating in itemsRating:
-#                     ratingDic2[rating.item.name] = (rating.rating * 1.0)
-#                 ratingDic1[user] = ratingDic2  
-#                       
-#             itemMatch = calculateSimilarItems(ratingDic1)
-#                  
-#             recommendations = getRecommendedItems(ratingDic1, itemMatch, co)
-#               
-#                       
-#             return render_to_response('recommend.html', {'recommendations':recommendations,'showForm':False}, 
-#                                       context_instance=RequestContext(request))       
-#                      
-#     else:
-#         form = SearchUserForm()
-#      
-#     return render_to_response('recommend.html',{'form':form,'showForm':True}, context_instance=RequestContext(request))
 
-
+@login_required(login_url="/enter")
+def recommend(request):
+    user = request.user
+    principal = UserApp.objects.filter(username = user.username).first()
+    
+    ratingDic1 = {}    
+      
+    for u in UserApp.objects.all():
+        ratings = Rating.objects.all().filter(userApp = u)
+        ratingDic2 = {}       
+        for rating in ratings:
+            ratingDic2[rating.game.name] = (rating.rating * 1.0)
+        ratingDic1[u] = ratingDic2  
+               
+    gameMatch = calculateSimilarItems(ratingDic1)
+          
+    recommendations = getRecommendedItems(ratingDic1, gameMatch, principal)
+            
+    return render_to_response('recommend.html', {'recommendations':recommendations, "recommend":"active", "user":user})
 
 
 

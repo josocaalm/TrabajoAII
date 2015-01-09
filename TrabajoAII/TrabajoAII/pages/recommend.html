@@ -2,31 +2,23 @@
 {% block title %}Recommendations{% endblock %}
 {% block content %}
 
-	{% if showForm %}
-
-	<form id='form' method='post' action=''>{% csrf_token %}
-		{{form.as_p}}
-		<p><input type='submit' value='Buscar'/></p>
-	</form>
-	
-	{% endif %}
-	
-	{% if not showForm %}	
+<div class="container">
 		
-		{% if recommendations|length > 0 %}
-	
-			<h1>Productos recomendados</h1>
-			
-			{% for r in recommendations|slice:":2" %}	
-			<ul>	
-				<li>Nombre: {{r.1}} , {{r.0}}</li> 
-			</ul>
-			{% endfor %}
+	{% if recommendations|length > 0 %}
 
-		{% else %}
-	    	None
-		{% endif %}
-	
+		<h1>Recommended games</h1>
+		
+		{% for r in recommendations %}	
+		<ul>
+			<li>Name: {{r.1}} , {{r.0}}</li> 
+		</ul>
+		{% endfor %}
+
+	{% else %}
+    	<div class="alert alert-info">There are no recommendations for you, yet.</div>
 	{% endif %}
+	
+</div>
+
 	
 {% endblock %}

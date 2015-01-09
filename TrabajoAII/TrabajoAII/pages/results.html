@@ -39,22 +39,23 @@
 								</form>
 							</div>
 							{% if user.is_authenticated %}
-							<div class="row">
-								<form class="form" action="/rate">
-									<div class="col-md-1">
-										<input type="hidden" name="game" value="{{game}}">
-										 <select class="form-control" name="r">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-											<option value="4">4</option>
-											<option value="5">5</option>
-										</select>
-									</div>
-									<div class="col-md-2">
-										<button class="btn btn-info form-control" type="submit">Rate</button>
-									</div>
-								</form>
+							<div class="row" style="padding-top: 10px">
+								<div class="col-md-4"></div>
+									<form class="form" action="/rate">
+										<div class="col-md-2">
+											<input type="hidden" name="gameSteamId" value="{{game.steamID}}">
+											<select class="form-control" name="r">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+												<option value="4">4</option>
+												<option value="5">5</option>
+											</select>
+										</div>
+										<div class="col-md-2">
+											<button class="btn btn-info form-control" type="submit">Rate</button>
+										</div>
+									</form>
 							</div>
 							{% endif %}
 						</td>
