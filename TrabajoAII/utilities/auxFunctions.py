@@ -6,7 +6,7 @@ def performConversion(amount, conversionFactor):
     return amount*conversionFactor
 
 def createWebdriver(url):
-    driver = webdriver.Chrome()
+    driver = webdriver.Firefox()
     driver.get(url)
     
     return driver

@@ -6,11 +6,11 @@
 <div class="container">
 
 	<div class="row">
-		<div class="col-md-12">
-			<h4>Steam best offer</h4>
-			<br/>
-			
+		<div class="col-md-12">			
 			{% if steamOffer|length > 0 %}
+				<h4>Best Steam offer</h4>
+				<br/>
+			
  				<table class="table table-hover table-bordered">
 				<thead>
         			<tr>
@@ -21,6 +21,7 @@
             			<th>Steam store (country)</th>
             			<th>Price on {{steamOffer.5}}</th>
             			<th>Price on {{steamOffer.7}}</th>
+            			<th></th>
         			</tr>
     			</thead>
     			<tbody>
@@ -31,20 +32,41 @@
 					<td> {{steamOffer.2}} </td>
 					<td> {{steamOffer.4}} </td> 
 					<td> {{steamOffer.6}} </td>
+					<td>
+						<button class="btn btn-success form-control" type="submit"><a href={{link}}>See on Steam</a></button>
+					</td>
 				</tbody>
 				</table>
 			{% endif %}
 			
 			
-			<h4>TF2 Outpost offers ({{ outpostOffers|length }} results found)</h4>
-			
+		
 			{% if outpostOffers|length > 0 %}
- 				<table class="table table-hover table-bordered">
-				<tbody>
+				<h4>TF2 Outpost offers ({{ outpostOffers|length }} results found)</h4>
+				<br/>
+				
+				<table class="table table-hover table-bordered">
+				<thead>
+        			<tr>
+        				<th>TF2 keys amount</th>
+            			<th>Refined metals amount</th>
+            			<th>Total price (on USD)</th>
+            			<th>Total price (on {{currency}})</th>
+            			<th></th>
+        			</tr>
+    			</thead>
+			
 				{% for outpostOffer in outpostOffers %}
-					<p>{{outpostOffer.0}}, {{outpostOffer.1}}, {{outpostOffer.2}}, {{outpostOffer.3}}, {{outpostOffer.4}}</p>
-	 			{% endfor %}
+				<tbody>
+						<td> {{outpostOffer.0}} </td>
+						<td> {{outpostOffer.1}} </td>
+						<td> {{outpostOffer.2}} </td>
+						<td> {{outpostOffer.4}} </td>
+						<td>
+							<button class="btn btn-success form-control" type="submit"><a href={{outpostOffer.3}}>Go to TF2Outpost offer</a></button>
+						</td>
 				</tbody>
+	 			{% endfor %}
 				</table>
 			{% else %}
 				<div class="alert alert-danger">No results were found. You should wait until traders start offering!</div>

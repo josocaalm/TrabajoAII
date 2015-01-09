@@ -18,11 +18,15 @@
 		 					<form class="form in-line" action="/offers">
 		 						<input type="hidden" name="name" value="{{game.0}}" >
 		 						<input type="hidden" name="fullId" value={{game.3}} >
-		 						<input type="hidden" name="cover" value="{{game.0}}" >
+		 						<input type="hidden" name="cover" value="{{game.1}}" >
         						<div class="input-group-btn">
         							<div class="row">
-	        							<div class="col-md-4">
-		        							<input class="form-control" type="text" name="currency" placeholder="Insert a ISO currency code" >
+	        							<div class="col-md-2">
+		        							<select multiple class="form-control" name="currency">
+											  {% for c in currencies %}
+											  	<option>{{c}}</option>
+											  {% endfor %}
+											</select>
 		        						</div>
 		        						<div class="col-md-2">
 		        							<button class="btn btn-success form-control" type="submit">Search</button>

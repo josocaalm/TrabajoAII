@@ -13,6 +13,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, authenticate, logout
+from currency.currencies import *
 from _codecs import encode
 
 def cover(request):
@@ -27,9 +28,10 @@ def results(request):
     user= request.user
     query = request.GET["q"]
     driverAndGames = launch_game_list_search(query)
+    currencies = findAllCurrencies()
     quitWebdriver(driverAndGames[0])
     
-    return render_to_response("results.html", {'games':driverAndGames[1], "query": query, "user":user})
+    return render_to_response("results.html", {'games':driverAndGames[1], "query": query, "user":user, "currencies": currencies})
 
 def offers(request):
     user= request.user
@@ -42,9 +44,10 @@ def offers(request):
     outpostOffers = launch_tf2outpost_offer_search(name, fullGameId, currency)
     if option == "complete":
         steamOffer = launch_steam_best_offer(fullGameId, currency)
-        return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer, "cover": cover, "currency": currency, "user":user})
-    
-    return render_to_response("offers.html", {'outpostOffers':outpostOffers, "cover": cover, "currency": currency, "user":user})
+        link = "http://steampowered.com/app/" + str(steamOffer[1]) + "/?cc=" + steamOffer[2]
+        return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer, "cover": cover, "currency": currency, "user":user, "link": link, "name": name})
+        
+    return render_to_response("offers.html", {'outpostOffers':outpostOffers, "cover": cover, "currency": currency, "user":user, "name": name})
 
 def signin(request):
 

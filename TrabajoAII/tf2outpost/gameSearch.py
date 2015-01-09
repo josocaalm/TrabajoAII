@@ -12,7 +12,7 @@ from urllib.request import urlopen
 def prepareSearchForm(inputText, driver):
     driver.execute_script("document.getElementById('gameid').setAttribute('style', '')")
     
-    selectInventory = Select(driver.find_element_by_name("gameid"))
+    selectInventory = Select(WebDriverWait(driver,5).until(EC.presence_of_element_located((by.By.XPATH, "//select[@name='gameid']"))))
     selectInventory.select_by_value("753")
 
     searchField = driver.find_element_by_id("filter")

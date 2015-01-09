@@ -2,6 +2,7 @@
 
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException 
+from utilities.auxFunctions import *
 
 def findConversion(inputCurrency, outputCurrency, webdriver):    
     formInput = Select(webdriver.find_element_by_name("from"))
@@ -20,4 +21,17 @@ def findConversion(inputCurrency, outputCurrency, webdriver):
     except NoSuchElementException:
         currency1To2Value = 0
     
-    return currency1To2Value   
+    return currency1To2Value
+
+
+def findAllCurrencies():
+    res = set()
+    driver = createWebdriver("https://www.google.com/finance/converter")
+    options = driver.find_elements_by_tag_name("option")
+        
+    for option in options:
+        res.add(option.get_attribute("value"))
+        
+    quitWebdriver(driver)
+    
+    return res 

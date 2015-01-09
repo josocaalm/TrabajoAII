@@ -41,7 +41,6 @@ def findGamePriceAndDetailsByID(gameID):
             if priceCurrency not in dictCurrencyAndGameDetails.keys():
                 dictCurrencyAndGameDetails[priceCurrency] = res
                 
-            print(dictCurrencyAndGameDetails)
     except:
         pass
             
@@ -56,16 +55,16 @@ def priceConversion(outputCurrency, dictCurrencyAndGameDetails):
     driver = utilsFuncs.createWebdriver("https://www.google.com/finance/converter")
      
     for curr in dictCurrencyAndGameDetails.keys():
+        conversionValue = currency.findConversion(curr, outputCurrency, driver)
+        convertedPrice = utilsFuncs.performConversion(dictCurrencyAndGameDetails[curr][3], conversionValue)
+         
+        gameID = dictCurrencyAndGameDetails[curr][0]
+        gameRegionIsoCode = dictCurrencyAndGameDetails[curr][1]
+        gameStore = dictCurrencyAndGameDetails[curr][2]
+        gameOldPrice = dictCurrencyAndGameDetails[curr][5]
+        gameTitle = dictCurrencyAndGameDetails[curr][6]
+        
         if curr != outputCurrency:
-            conversionValue = currency.findConversion(curr, outputCurrency, driver)
-            convertedPrice = utilsFuncs.performConversion(dictCurrencyAndGameDetails[curr][3], conversionValue)
-             
-            gameID = dictCurrencyAndGameDetails[curr][0]
-            gameRegionIsoCode = dictCurrencyAndGameDetails[curr][1]
-            gameStore = dictCurrencyAndGameDetails[curr][2]
-            gameOldPrice = dictCurrencyAndGameDetails[curr][3]
-            gameTitle = dictCurrencyAndGameDetails[curr][4]
-             
             elemList = [gameID, gameRegionIsoCode, gameStore, gameTitle, gameOldPrice, curr, convertedPrice, outputCurrency]
         else:
             elemList = [gameID, gameRegionIsoCode, gameStore, gameTitle, gameOldPrice, curr, gameOldPrice, curr]
