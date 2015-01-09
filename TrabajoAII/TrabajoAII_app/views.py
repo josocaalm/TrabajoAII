@@ -25,13 +25,30 @@ def search(request):
     return render_to_response("search.html", {"search": "active", "user":user})
 
 def results(request):
-    user= request.user
-    query = request.GET["q"]
-    driverAndGames = launch_game_list_search(query)
-    currencies = findAllCurrencies()
-    quitWebdriver(driverAndGames[0])
-    
-    return render_to_response("results.html", {'games':driverAndGames[1], "query": query, "user":user, "currencies": currencies})
+    user=request.user
+    try:
+        query = request.GET["q"]
+        if query is "":
+            errorMessage = "You didn't type the name of the game."
+            return render_to_response("cover.html", {"cover":"active","user":user, "errorMessage": errorMessage})
+            
+        driverAndGames = launch_game_list_search(query)
+        currencies = ['AED','AFN','ALL','AMD','ANG','AOA','ARS','AUD','AWG','AZN','BAM','BBD','BDT','BGN','BHD','BIF','BMD','BND','BOB','BRL', 'BSD', 'BTC', 'BTN', 'BWP', 'BYR', 'BZD', 'CAD', 'CDF', 'CHF', 'CLF', 'CLP', 'CNH', 'CNY', 'COP', 'CRC', 'CUP', 'CVE', 'CZK', 'DEM', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ERN', 'ETB', 'EUR', 'FIM', 'FJD', 'FKP', 'FRF', 'GBP', 'GEL', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'IEP', 'ILS', 'INR', 'IQD', 'IRR', 'ISK', 'ITL', 'JMD', 'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KMF', 'KPW', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LTL', 'LVL', 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT', 'MOP', 'MRO', 'MUR', 'MVR', 'MWK', 'MXN', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKG', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK', 'SGD', 'SHP', 'SLL', 'SOS', 'SRD', 'STD', 'SVC', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND',
+                      'TOP', 'TRY', 'TTD', 'TWD', 'TZS', 'UAH', 'UGX','USD','UYU','UZS','VEF','VND','VUV','WST','XAF','XCD','XDR','XOF','XPF','YER','ZAR','ZMK','ZMW','ZWL']
+        
+        gamesPrimitive = driverAndGames[1]
+        games=[]
+        for elem in gamesPrimitive:
+            steamId = fromTF2OutpostIDToSteamID(driverAndGames[0],elem[3])[1]
+            game = Game(name = elem[0], coverString = elem[1], tf2outpostPartialID = elem[2], tf2outpostFullID = elem[3], steamID = steamId)
+            games.append(game)
+        
+        quitWebdriver(driverAndGames[0])
+        
+        return render_to_response("results.html", {'games':games, "search":"active", "query": query, "user":user, "currencies": currencies})
+    except:
+        errorMessage = "There was a problem while searching the game. Please do not interact with the Firefox emergent window."
+        return render_to_response("cover.html", {"cover":"active","user":user, "errorMessage": errorMessage})
 
 def offers(request):
     user= request.user
@@ -137,6 +154,21 @@ def enter(request):
 def exitt(request):
     auth.logout(request)
     return render_to_response('cover.html')
+
+def rate(request):
+    user=request.user
+    try:
+        rating = request.GET["r"]
+        game = Game(request.GET["game"])
+        
+        gameRating = Rating(rating,game,user)
+        gameRating.save()
+        
+        message = "Game successfully rated."
+        return render_to_response("cover.html", {"cover":"active","user":user, "message": message})
+    except:
+        errorMessage = "There was a problem while searching the game. Please do not interact with the Firefox emergent window."
+        return render_to_response("cover.html", {"cover":"active","user":user, "errorMessage": errorMessage})
   
 # #Apartado b)
 # def list_users(request):

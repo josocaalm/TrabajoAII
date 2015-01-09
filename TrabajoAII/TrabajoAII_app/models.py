@@ -11,19 +11,18 @@ class UserApp(User):
 
 class Rating(models.Model):
     rating = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)])
-    pelicula = models.ForeignKey("Game")
-    usuario = models.ForeignKey("UserApp")
+    game = models.ForeignKey("Game")
+    userApp = models.ForeignKey("UserApp")
     
     def __str__(self):
         return str(self.puntuacion)
 
 class Game(models.Model):
     name = models.TextField()
+    coverString = models.TextField()
+    tf2outpostPartialID = models.TextField()
+    tf2outpostFullID = models.TextField()
     steamID = models.TextField()
     
     def __unicode__(self):
         return self.name
-    
-    
-    
-    

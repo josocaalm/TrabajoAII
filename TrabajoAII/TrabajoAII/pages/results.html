@@ -1,60 +1,71 @@
-{% extends 'base.html' %}
-{% block title %}Results for {{query}} {% endblock %}
-{% block content %}
+{% extends 'base.html' %} {% block title %}Results for {{query}} 
+{% endblock %} {% block content %}
 <div class="container">
 
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-14">
 			<h4>Results found: {{games|length}}</h4>
-			<br/>
-			
-			{% if games|length > 0 %}
- 				<table class="table table-bordered">
+			<br /> {% if games|length > 0 %}
+			<table class="table table-bordered">
 				<tbody>
-				{% for game in games %}
+					{% for game in games %}
 					<tr>
-						<td><img src={{game.1}} alt="{{game.0}}" title="{{game.0}}"/></td>
-		 				<td>
-		 					<form class="form in-line" action="/offers">
-		 						<input type="hidden" name="name" value="{{game.0}}" >
-		 						<input type="hidden" name="fullId" value={{game.3}} >
-		 						<input type="hidden" name="cover" value="{{game.1}}" >
-        						<div class="input-group-btn">
-        							<div class="row">
-	        							<div class="col-md-2">
-		        							<select multiple class="form-control" name="currency">
-											  {% for c in currencies %}
-											  	<option>{{c}}</option>
-											  {% endfor %}
+						<td><img src={{game.coverString}} alt="{{game.name}}" title="{{game.name}}" /></td>
+						<td>
+							<div class="row">
+								<form class="form" action="/offers">
+									<input type="hidden" name="name" value="{{game.name}}"> <input
+										type="hidden" name="fullId" value={{game.tf2outpostFullID}}> <input
+										type="hidden" name="cover" value="{{game.coverString}}">
+									<div class="input-group-btn">
+										<div class="col-md-4">
+											<select class="form-control" name="currency">
+												<option>Select your currency</option>
+												{% for c in currencies %}
+													<option>{{c}}</option>
+												{% endfor %}
 											</select>
-		        						</div>
-		        						<div class="col-md-2">
-		        							<button class="btn btn-success form-control" type="submit">Search</button>
-		        						</div>
-	        							<div class="col-md-3">
-	        								<div class="radio">
-												<label>
-													<input class="text-muted credit" type="radio" name="option" id="option_1" value="fast" checked>Fast search
-												</label>
-											</div>
-											<div class="radio">
-												<label>
-													<input class="text-muted credit" type="radio" name="option" id="option_2" value="complete">Complete search
-												</label>
-											</div>
-	        							</div>
-	        						</div>	
-	                			</div>
-        					</form>
-		 				</td>
-		 			</tr>
-	 			{% endfor %}
+										</div>
+										<div class="col-md-2">
+											<select class="form-control" name="option">
+												<option value="fast">Fast search</option>
+												<option value="complete">Full search</option>
+											</select>
+										</div>
+										<div class="col-md-2">
+											<button class="btn btn-success form-control" type="submit">Search</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							{% if user.is_authenticated %}
+							<div class="row">
+								<form class="form" action="/rate">
+									<div class="col-md-1">
+										<input type="hidden" name="game" value="{{game}}">
+										 <select class="form-control" name="r">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="4">4</option>
+											<option value="5">5</option>
+										</select>
+									</div>
+									<div class="col-md-2">
+										<button class="btn btn-info form-control" type="submit">Rate</button>
+									</div>
+								</form>
+							</div>
+							{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
 				</tbody>
-				</table>
+			</table>
 			{% else %}
-				<div class="alert alert-danger">No results were found. Try with another words!</div>
+			<div class="alert alert-danger">No results were found. Try with another words!</div>
 			{% endif %}
 		</div>
 	</div>
 </div>
-{% endblock %}	
+{% endblock %}
