@@ -199,7 +199,6 @@ def recommend(request):
     games=[]
     for rec in recommendations:
         game = Game.objects.filter(name = rec[1]).first()
-        print(game.name)
         games.append(game)
             
     return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
