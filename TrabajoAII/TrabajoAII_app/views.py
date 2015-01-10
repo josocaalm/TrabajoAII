@@ -203,6 +203,15 @@ def recommend(request):
             
     return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
 
+@login_required(login_url="/enter")
+def ratings(request):
+    user = request.user
+    principal = UserApp.objects.filter(username = user.username).first()
+    games = Game.objects.filter(userapp = principal)
+    print(games[0].name)
+            
+    return render_to_response('ratings.html', {"games":games, "ratings":"active", "user":user})
+
 
 
 
