@@ -196,8 +196,13 @@ def recommend(request):
     gameMatch = calculateSimilarItems(ratingDic1)
           
     recommendations = getRecommendedItems(ratingDic1, gameMatch, principal)
+    games=[]
+    for rec in recommendations:
+        game = Game.objects.filter(name = rec[1]).first()
+        print(game.name)
+        games.append(game)
             
-    return render_to_response('recommend.html', {'recommendations':recommendations, "recommend":"active", "user":user})
+    return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
 
 
 
