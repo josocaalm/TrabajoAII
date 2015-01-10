@@ -70,9 +70,13 @@ def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
         steamCheckAgeForm = soup.find("form", {"id":"agecheck_form"})
         steamGameCoverLink = steamCheckAgeForm["action"]
         steamID = steamGameCoverLink.replace("http://store.steampowered.com/agecheck/app/", "")
-        steamID = steamID.replace("/", "")    
+        steamID = steamID.replace("/", "")
     
-    return [driver, int(steamID)]
+    try:
+        steamID = int(steamID)
+        return [driver, steamID]
+    except:
+        pass
 
 
 def enterToSearchPage(driver):

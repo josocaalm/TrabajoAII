@@ -40,11 +40,13 @@ def results(request):
         gamesPrimitive = driverAndGames[1]
         games=[]
         for elem in gamesPrimitive:
-            steamId = fromTF2OutpostIDToSteamID(driverAndGames[0],elem[3])[1]
-            game = Game(name = elem[0], coverString = elem[1], tf2outpostPartialID = elem[2], tf2outpostFullID = elem[3], steamID = steamId)
-            if Game.objects.filter(steamID = steamId).exists() != True:
-                game.save()
-            games.append(game)
+            driverAndSteamID = fromTF2OutpostIDToSteamID(driverAndGames[0],elem[3])
+            if driverAndSteamID != None:
+                steamId = driverAndSteamID[1]
+                game = Game(name = elem[0], coverString = elem[1], tf2outpostPartialID = elem[2], tf2outpostFullID = elem[3], steamID = steamId)
+                if Game.objects.filter(steamID = steamId).exists() != True:
+                    game.save()
+                games.append(game)
         
         quitWebdriver(driverAndGames[0])
         
