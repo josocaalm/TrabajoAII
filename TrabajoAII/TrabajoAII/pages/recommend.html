@@ -8,11 +8,22 @@
 
 		<h1>Recommended games</h1>
 		
-		{% for r in recommendations %}	
-		<ul>
-			<li>Name: {{r.1}} , {{r.0}}</li> 
-		</ul>
-		{% endfor %}
+		<table class="table table-hover table-bordered">
+				<thead>
+        			<tr>
+        				<th>Cover</th>
+            			<th>Title</th>
+            			<th>Steam ID</th>
+        			</tr>
+    			</thead>
+    			{% for r in recommendations %}
+    			<tbody>	
+					<td><img src={{r.1.coverString}} /></td>
+					<td> {{r.1.name}} </td>
+					<td> {{r.1.steamID}} </td>
+				</tbody>
+				{% endfor %}
+		</table>
 
 	{% else %}
     	<div class="alert alert-info">There are no recommendations for you, yet.</div>
