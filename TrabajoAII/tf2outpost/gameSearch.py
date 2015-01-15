@@ -51,30 +51,34 @@ def retrieveListOfGames(driver):
 
 def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
     driver.get("http://www.tf2outpost.com/item/" + tf2outpostFullID)
-    steamFakeLinkElem = WebDriverWait(driver,10).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
-    steamFakeLink = steamFakeLinkElem.get_attribute("href")
-    
-    soup = BeautifulSoup(urlopen(steamFakeLink))
     
     try:
-        steamTrueLinkElem = soup.find("link", {"rel" : "canonical"})
-        if steamTrueLinkElem != None:
-            steamTrueLink = steamTrueLinkElem["href"]
-            steamID = steamTrueLink.replace("http://store.steampowered.com/app/", "")
-            steamID = steamID.replace("/", "")   
-        else:
-            steamPossibleGamePackID = soup.find("input", {"name":"subid"})
-            steamID = steamPossibleGamePackID["value"]
-            
-    except TypeError:
-        steamCheckAgeForm = soup.find("form", {"id":"agecheck_form"})
-        steamGameCoverLink = steamCheckAgeForm["action"]
-        steamID = steamGameCoverLink.replace("http://store.steampowered.com/agecheck/app/", "")
-        steamID = steamID.replace("/", "")
-    
-    try:
-        steamID = int(steamID)
-        return [driver, steamID]
+        steamFakeLinkElem = WebDriverWait(driver,10).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
+        steamFakeLink = steamFakeLinkElem.get_attribute("href")
+        
+        soup = BeautifulSoup(urlopen(steamFakeLink))
+        
+        try:
+            steamTrueLinkElem = soup.find("link", {"rel" : "canonical"})
+            if steamTrueLinkElem != None:
+                steamTrueLink = steamTrueLinkElem["href"]
+                steamID = steamTrueLink.replace("http://store.steampowered.com/app/", "")
+                steamID = steamID.replace("/", "")   
+            else:
+                steamPossibleGamePackID = soup.find("input", {"name":"subid"})
+                steamID = steamPossibleGamePackID["value"]
+                
+        except TypeError:
+            steamCheckAgeForm = soup.find("form", {"id":"agecheck_form"})
+            steamGameCoverLink = steamCheckAgeForm["action"]
+            steamID = steamGameCoverLink.replace("http://store.steampowered.com/agecheck/app/", "")
+            steamID = steamID.replace("/", "")
+        
+        try:
+            steamID = int(steamID)
+            return [driver, steamID]
+        except:
+            pass
     except:
         pass
 

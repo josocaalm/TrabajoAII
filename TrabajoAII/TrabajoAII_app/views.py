@@ -1,21 +1,19 @@
 # Create your views here.
-from smtplib import SMTP_SSL, SMTPAuthenticationError
+from smtplib import SMTP_SSL
 from email.header    import Header
-from getpass import getpass
 from email.mime.text import MIMEText
-from django.shortcuts import render_to_response, get_object_or_404, render, HttpResponseRedirect
-from TrabajoAII_app.models import *
+from django.shortcuts import render_to_response
+from TrabajoAII_app.models import Game, Rating, UserApp
 from django.template import RequestContext
-from TrabajoAII_app.forms import *
-from TrabajoAII_app.recommendations import *
-from launch.launch import *
+from TrabajoAII_app.forms import UserForm, ContactForm, LoginForm
+from TrabajoAII_app.recommendations import getRecommendedItems, calculateSimilarItems
+from tf2outpost.gameSearch import fromTF2OutpostIDToSteamID
+from launch.launch import launch_game_list_search, launch_steam_best_offer, launch_tf2outpost_offer_search
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import login, authenticate, logout
-from currency.currencies import *
-from _codecs import encode
-from django.contrib.auth import get_user
+from django.contrib.auth import login
+from utilities.auxFunctions import quitWebdriver
 
 def cover(request):
     user= request.user
@@ -66,7 +64,7 @@ def offers(request):
     outpostOffers = launch_tf2outpost_offer_search(name, fullGameId, currency)
     if option == "complete":
         steamOffer = launch_steam_best_offer(fullGameId, currency)
-        link = "http://steampowered.com/app/" + str(steamOffer[1]) + "/?cc=" + steamOffer[2]
+        link = "http://store.steampowered.com/app/" + str(steamOffer[0]) + "/?cc=" + steamOffer[1]
         return render_to_response("offers.html", {'outpostOffers':outpostOffers, "steamOffer": steamOffer, "cover": cover, "currency": currency, "user":user, "link": link, "name": name})
         
     return render_to_response("offers.html", {'outpostOffers':outpostOffers, "cover": cover, "currency": currency, "user":user, "name": name})

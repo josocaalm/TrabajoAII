@@ -1,7 +1,5 @@
 #encoding: utf-8
 
-from urllib.request import urlopen
-from urllib.error import HTTPError
 import isoCurrenciesCountries.ISOCodes as iso
 import currency.currencies as currency
 import utilities.auxFunctions as utilsFuncs
