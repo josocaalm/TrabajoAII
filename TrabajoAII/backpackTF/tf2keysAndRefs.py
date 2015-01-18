@@ -27,7 +27,7 @@ def currentKeyToRefsEquivalence():
     html = urlopen(request)
     soup = BeautifulSoup(html)
     
-    regExp = "(\d)?\d–.* ref"
+    regExp = "\d?\d.*(–\d?\d.*)? ref"
         
     for elem in soup.findAll("p", {"class": "value"}):
         if re.search(regExp, elem.text):
