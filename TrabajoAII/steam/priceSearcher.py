@@ -63,7 +63,7 @@ def priceConversion(outputCurrency, dictCurrencyAndGameDetails):
         gameTitle = dictCurrencyAndGameDetails[curr][6]
         
         if curr != outputCurrency:
-            elemList = [gameID, gameRegionIsoCode, gameStore, gameTitle, gameOldPrice, curr, convertedPrice, outputCurrency]
+            elemList = [gameID, gameRegionIsoCode, gameStore, gameTitle, gameOldPrice, curr, round(convertedPrice, 2), outputCurrency]
         else:
             elemList = [gameID, gameRegionIsoCode, gameStore, gameTitle, gameOldPrice, curr, gameOldPrice, curr]
      

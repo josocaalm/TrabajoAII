@@ -16,7 +16,7 @@ def loginAndRedirectToSearchPage():
     
     driver.find_element_by_name("logon").submit()
     
-    searchButton = WebDriverWait(driver, 5).until(EC.presence_of_element_located((by.By.XPATH, "//a[@href='/search']")))
+    searchButton = WebDriverWait(driver, 60).until(EC.presence_of_element_located((by.By.XPATH, "//a[@href='/search']")))
     searchButton.click()
     
     return driver

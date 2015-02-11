@@ -2,7 +2,7 @@
 
 from selenium.webdriver.support.select import Select
 from selenium.common.exceptions import NoSuchElementException 
-from utilities.auxFunctions import *
+from utilities.auxFunctions import createWebdriver, quitWebdriver
 
 def findConversion(inputCurrency, outputCurrency, webdriver):    
     formInput = Select(webdriver.find_element_by_name("from"))
