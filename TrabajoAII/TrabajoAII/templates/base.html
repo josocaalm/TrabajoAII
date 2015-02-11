@@ -23,6 +23,9 @@
 			                <div class="collapse navbar-collapse navbar-right">
 			                    <ul class="nav navbar-nav">
 			                        <li class={{cover}}><a href="/">Home</a></li>
+			                        {% if user.username == "admin" %}
+										<li><a href="/updateDB">Fetch games from Steam</a></li>
+									{% endif %}
 			                        <li class={{search}}><a href="/search">Search</a></li>
 			                        <li class={{contact}}><a href="/contact">Contact</a></li>
 			                        {% if user.username %}
@@ -30,6 +33,7 @@
 			                        	<li class={{recommend}}><a href="/recommend">Recommended for me</a></li>
 										<li><a href="/logout">Log out</a></li>
 									{% endif %}
+									
 									{% if not user.username %}
 										<li class={{login}}><a href="/login">Log in</a></li>
 									{% endif %}                  

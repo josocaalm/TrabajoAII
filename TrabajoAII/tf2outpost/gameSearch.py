@@ -12,7 +12,7 @@ from urllib.request import urlopen
 def prepareSearchForm(inputText, driver):
     driver.execute_script("document.getElementById('gameid').setAttribute('style', '')")
     
-    selectInventory = Select(WebDriverWait(driver,5).until(EC.presence_of_element_located((by.By.XPATH, "//select[@name='gameid']"))))
+    selectInventory = Select(WebDriverWait(driver,60).until(EC.presence_of_element_located((by.By.XPATH, "//select[@name='gameid']"))))
     selectInventory.select_by_value("753")
 
     searchField = driver.find_element_by_id("filter")
@@ -28,7 +28,7 @@ def retrieveListOfGames(driver):
     searchMatches = list()
     
     try:
-        WebDriverWait(driver,5).until(EC.presence_of_element_located((by.By.XPATH, "//li[@class='item it_753_6']")))
+        WebDriverWait(driver,60).until(EC.presence_of_element_located((by.By.XPATH, "//li[@class='item it_753_6']")))
     except:
         pass
     
@@ -53,7 +53,7 @@ def fromTF2OutpostIDToSteamID(driver, tf2outpostFullID):
     driver.get("http://www.tf2outpost.com/item/" + tf2outpostFullID)
     
     try:
-        steamFakeLinkElem = WebDriverWait(driver,10).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
+        steamFakeLinkElem = WebDriverWait(driver,60).until(EC.presence_of_element_located((by.By.XPATH, '//div[@class="summary box module"]/descendant::ul[@class="links"]/descendant::li/descendant::a[text()=" View on Steam"]')))
         steamFakeLink = steamFakeLinkElem.get_attribute("href")
         
         soup = BeautifulSoup(urlopen(steamFakeLink))

@@ -11,16 +11,16 @@
 		<table class="table table-hover table-bordered">
 				<thead>
         			<tr>
-        				<th>Cover</th>
-            			<th>Title</th>
-            			<th>Steam ID</th>
+        				<th class="text-center">Cover</th>
+            			<th class="text-center">Title</th>
+            			<th class="text-center">Steam ID</th>
         			</tr>
     			</thead>
     			{% for r in recommendations %}
     			<tbody>	
-					<td><img src={{r.coverString}} /></td>
-					<td> {{r.name}} </td>
-					<td> {{r.steamID}} </td>
+					<td class="text-center"><img src={{r.coverString}} style="width: 231px; height: 87px" class="text-center"/></td>
+					<td class="text-center"> {{r.name}} </td>
+					<td class="text-center"> {{r.steamID}} </td>
 				</tbody>
 				{% endfor %}
 		</table>

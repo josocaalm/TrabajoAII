@@ -14,25 +14,25 @@
  				<table class="table table-hover table-bordered">
 				<thead>
         			<tr>
-        				<th>Cover</th>
-            			<th>Title</th>
-            			<th>Steam ID</th>
-            			<th>Region</th>
-            			<th>Steam store (country)</th>
-            			<th>Price on {{steamOffer.5}}</th>
-            			<th>Price on {{steamOffer.7}}</th>
+        				<th class="text-center">Cover</th>
+            			<th class="text-center">Title</th>
+            			<th class="text-center">Steam ID</th>
+            			<th class="text-center">Region</th>
+            			<th class="text-center">Steam store (country)</th>
+            			<th class="text-center">Price on {{steamOffer.5}}</th>
+            			<th class="text-center">Price on {{steamOffer.7}}</th>
             			<th></th>
         			</tr>
     			</thead>
     			<tbody>
-					<td><img src={{cover}} /></td>
-					<td> {{steamOffer.3}} </td>
-					<td> {{steamOffer.0}} </td>
-					<td> {{steamOffer.1}} </td>
-					<td> {{steamOffer.2}} </td>
-					<td> {{steamOffer.4}} </td> 
-					<td> {{steamOffer.6}} </td>
-					<td>
+					<td class="text-center"><img src={{cover}} /></td>
+					<td class="text-center"> {{steamOffer.3}} </td>
+					<td class="text-center"> {{steamOffer.0}} </td>
+					<td class="text-center"> {{steamOffer.1}} </td>
+					<td class="text-center"> {{steamOffer.2}} </td>
+					<td class="text-center"> {{steamOffer.4}} </td> 
+					<td class="text-center"> {{steamOffer.6}} </td>
+					<td class="text-center">
 						<button class="btn btn-success form-control" type="submit"><a href={{link}}>See on Steam</a></button>
 					</td>
 				</tbody>
@@ -48,20 +48,20 @@
 				<table class="table table-hover table-bordered">
 				<thead>
         			<tr>
-        				<th>TF2 keys amount</th>
-            			<th>Refined metals amount</th>
-            			<th>Total price (on USD)</th>
-            			<th>Total price (on {{currency}})</th>
+        				<th class="text-center">TF2 keys amount</th>
+            			<th class="text-center">Refined metals amount</th>
+            			<th class="text-center">Total price (on USD)</th>
+            			<th class="text-center">Total price (on {{currency}})</th>
             			<th></th>
         			</tr>
     			</thead>
 			
 				{% for outpostOffer in outpostOffers %}
 				<tbody>
-						<td> {{outpostOffer.0}} </td>
-						<td> {{outpostOffer.1}} </td>
-						<td> {{outpostOffer.2}} </td>
-						<td> {{outpostOffer.4}} </td>
+						<td class="text-center"> {{outpostOffer.0}} </td>
+						<td class="text-center"> {{outpostOffer.1}} </td>
+						<td class="text-center"> {{outpostOffer.2}} </td>
+						<td class="text-center"> {{outpostOffer.4}} </td>
 						<td>
 							<button class="btn btn-success form-control" type="submit"><a href={{outpostOffer.3}}>Go to TF2Outpost offer</a></button>
 						</td>

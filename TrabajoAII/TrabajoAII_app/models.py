@@ -22,6 +22,7 @@ class Rating(models.Model):
 class Game(models.Model):
     name = models.TextField()
     coverString = models.TextField()
+    tf2outpostFullId = models.TextField()
     steamID = models.TextField()
     
     def __unicode__(self):

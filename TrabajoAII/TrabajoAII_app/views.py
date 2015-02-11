@@ -7,6 +7,7 @@ from TrabajoAII_app.models import Game, Rating, UserApp, Genre
 from django.template import RequestContext
 from TrabajoAII_app.forms import UserForm, ContactForm, LoginForm
 from TrabajoAII_app.recommendations_content_based import getRecommendedItems, calculateSimilarItems
+from TrabajoAII_app.recommendations_collaborative_filtering import gamesRecommendationBasedOnLikedGenres
 from tf2outpost.gameSearch import fromTF2OutpostIDToSteamID
 from launch.launch import launch_game_list_search, launch_steam_best_offer, launch_tf2outpost_offer_search
 from django.contrib import auth
@@ -41,9 +42,14 @@ def results(request):
             driverAndSteamID = fromTF2OutpostIDToSteamID(driverAndGames[0],elem[3])
             if driverAndSteamID != None:
                 steamId = driverAndSteamID[1]
-                game = Game(name = elem[0], coverString = elem[1], steamID = steamId)
+                game = Game(name = elem[0], coverString = elem[1], tf2outpostFullId = elem[3], steamID = steamId)
                 if Game.objects.filter(steamID = steamId).exists() != True:
                     game.save()
+                else:
+                    if not Game.objects.get(steamID = steamId).tf2outpostFullId:
+                        existingGame = Game.objects.get(steamID = steamId)
+                        existingGame.tf2outpostFullID = elem[3]
+                        existingGame.save()
                 games.append(game)
         
         quitWebdriver(driverAndGames[0])
@@ -81,11 +87,15 @@ def signin(request):
         if request.method == 'POST':
             form = UserForm(request.POST)
             if form.is_valid():
+                likedGenres = request.POST.getlist("like")                
+                if len(likedGenres) == 0:
+                    return render_to_response('signin.html',{'form':form, "genres": genres, "noGenres": True}, context_instance=RequestContext(request))
+                
                 user = UserApp(password =  make_password(form.cleaned_data['password']), username = form.cleaned_data['username'],
                                 first_name = form.cleaned_data['first_name'], last_name = form.cleaned_data['last_name'],
                                 email = form.cleaned_data['email'])
                 user.save()
-                likedGenres = request.POST.getlist("like")
+                
                 for genre in likedGenres:
                     genreDB = Genre.objects.get(name = genre)
                     genreDB.usersApp.add(user)
@@ -188,22 +198,25 @@ def recommend(request):
     user = request.user
     principal = UserApp.objects.filter(username = user.username).first()
     
-    ratingDic1 = {}    
-      
-    for u in UserApp.objects.all():
-        ratings = Rating.objects.all().filter(userApp = u)
-        ratingDic2 = {}       
-        for rating in ratings:
-            ratingDic2[rating.game.name] = (rating.rating * 1.0)
-        ratingDic1[u] = ratingDic2  
+    if UserApp.objects.count() <= 100:
+        ratingDic1 = {}    
+           
+        for u in UserApp.objects.all():
+            ratings = Rating.objects.all().filter(userApp = u)
+            ratingDic2 = {}       
+            for rating in ratings:
+                ratingDic2[rating.game.name] = (rating.rating * 1.0)
+            ratingDic1[u] = ratingDic2
+                    
+        gameMatch = calculateSimilarItems(ratingDic1)
                
-    gameMatch = calculateSimilarItems(ratingDic1)
-          
-    recommendations = getRecommendedItems(ratingDic1, gameMatch, principal)
-    games=[]
-    for rec in recommendations:
-        game = Game.objects.filter(name = rec[1]).first()
-        games.append(game)
+        recommendations = getRecommendedItems(ratingDic1, gameMatch, principal)
+        games=[]
+        for rec in recommendations:
+            game = Game.objects.filter(name = rec[1]).first()
+            games.append(game)
+    else:
+        games = gamesRecommendationBasedOnLikedGenres(principal)
             
     return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
 
@@ -214,7 +227,5 @@ def ratings(request):
     games = Game.objects.filter(userapp = principal)
             
     return render_to_response('ratings.html', {"games":games, "ratings":"active", "user":user})
-
-
 
 

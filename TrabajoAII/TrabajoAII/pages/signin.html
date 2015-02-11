@@ -17,7 +17,13 @@
 				<br/><br/>
 				<button class="btn btn-success" type='submit' value="save">Register</button>
 				</form>
+				
+				{% if noGenres %}
+					<br/>
+					<div class="alert alert-info text-center">You must select at least one genre.</div>
+				{% endif %}
 			</div>
+			
 		</div>
 	</div>
 
