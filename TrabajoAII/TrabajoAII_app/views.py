@@ -3,10 +3,10 @@ from smtplib import SMTP_SSL
 from email.header    import Header
 from email.mime.text import MIMEText
 from django.shortcuts import render_to_response
-from TrabajoAII_app.models import Game, Rating, UserApp
+from TrabajoAII_app.models import Game, Rating, UserApp, Genre
 from django.template import RequestContext
 from TrabajoAII_app.forms import UserForm, ContactForm, LoginForm
-from TrabajoAII_app.recommendations import getRecommendedItems, calculateSimilarItems
+from TrabajoAII_app.recommendations_content_based import getRecommendedItems, calculateSimilarItems
 from tf2outpost.gameSearch import fromTF2OutpostIDToSteamID
 from launch.launch import launch_game_list_search, launch_steam_best_offer, launch_tf2outpost_offer_search
 from django.contrib import auth
@@ -77,6 +77,7 @@ def signin(request):
         registered = True
         return render_to_response('cover.html',{'registered': registered,"user":user})
     else:
+        genres = Genre.objects.all()
         if request.method == 'POST':
             form = UserForm(request.POST)
             if form.is_valid():
@@ -84,16 +85,21 @@ def signin(request):
                                 first_name = form.cleaned_data['first_name'], last_name = form.cleaned_data['last_name'],
                                 email = form.cleaned_data['email'])
                 user.save()
+                likedGenres = request.POST.getlist("like")
+                for genre in likedGenres:
+                    genreDB = Genre.objects.get(name = genre)
+                    genreDB.usersApp.add(user)
+                
                 user = auth.authenticate(username = form.cleaned_data['username'], password=form.cleaned_data['password'])
                 login(request, user)
                 user= request.user
                 message= "Registration successfully completed!"
                 return render_to_response('cover.html',{"cover":"active", "user":user, "message":message})
             else:
-                return render_to_response('signin.html',{'form':form}, context_instance=RequestContext(request))
+                return render_to_response('signin.html',{'form':form, "genres": genres}, context_instance=RequestContext(request))
         else:
             form = UserForm()
-            return render_to_response('signin.html',{'form':form}, context_instance=RequestContext(request))
+            return render_to_response('signin.html',{'form':form, "genres": genres}, context_instance=RequestContext(request))
 
 #python -m smtpd -n -c DebuggingServer localhost:1025
 def contact(request):

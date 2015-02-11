@@ -4,11 +4,20 @@
 
 	<div class="container">
 		<h1 class="heading">Sign in</h1>
-		<div style="color: grey">
-			<form method='post' action=''>{% csrf_token %}
-				{{form.as_p}}
-			<button class="btn btn-success" type='submit' value="save">Register</button>
-			</form>
+		<div class="form-group">
+			<div style="color: grey">
+				<form method='post' action=''>{% csrf_token %}
+					{{form.as_p}}
+				<label for="like">Select your favorite genres:</label>
+				<select multiple name="like">
+					{% for genre in genres %}
+						<option>{{ genre.name }}</option>
+					{% endfor %}
+				</select>
+				<br/><br/>
+				<button class="btn btn-success" type='submit' value="save">Register</button>
+				</form>
+			</div>
 		</div>
 	</div>
 
