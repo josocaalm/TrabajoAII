@@ -37,7 +37,7 @@ class Genre(models.Model):
         return self.name
     
 class SteamTag(models.Model):
-    game = models.ManyToManyRel("Game")
+    games = models.ManyToManyField("Game")
     
     tagName = models.TextField()
     
