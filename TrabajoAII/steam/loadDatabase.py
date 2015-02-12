@@ -90,9 +90,3 @@ def loadMySQLDatabase(games):
                 newGameGenre = Genre(name = genre)
                 newGameGenre.save()
                 newGameGenre.games.add(newGame)
-
-gamesIDs = obtainSteamTopGamesIDs(auxFunctions.createWebdriver("http://store.steampowered.com/search/?sort_by=_ASC&category1=998&page=1"), 1, 1, [])
-games = getSteamTopGamesInfo(gamesIDs)
-loadMySQLDatabase(games)
-
-
