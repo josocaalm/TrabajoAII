@@ -17,6 +17,9 @@ def currentRefPrice():
             if "–" in formatedText:
                 hyphenIndex = formatedText.index("–")
                 formatedText = formatedText[hyphenIndex+1:]
+            if "-" in formatedText:
+                hyphenIndex = formatedText.index("-")
+                formatedText = formatedText[hyphenIndex+1:]
             break
     
     return float(formatedText)
@@ -27,7 +30,7 @@ def currentKeyToRefsEquivalence():
     html = urlopen(request)
     soup = BeautifulSoup(html)
     
-    regExp = "\d?\d.*(–\d?\d.*)? ref"
+    regExp = "\d?\d.*((–|-)\d?\d.*)? ref"
         
     for elem in soup.findAll("p", {"class": "value"}):
         if re.search(regExp, elem.text):
