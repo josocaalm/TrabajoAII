@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login
 from utilities.auxFunctions import quitWebdriver
+from TrabajoAII_app.recommendations_hybrid import hybridRecommendation
 
 def cover(request):
     user= request.user
@@ -199,7 +200,10 @@ def recommend(request):
     principal = UserApp.objects.filter(username = user.username).first()
     
     if UserApp.objects.count() <= 100:
-        ratingDic1 = {}    
+        collabFiltRecom = gamesRecommendationBasedOnLikedGenres(principal)
+        games = hybridRecommendation(collabFiltRecom)
+    else:
+        ratingDic1 = {}
            
         for u in UserApp.objects.all():
             ratings = Rating.objects.all().filter(userApp = u)
@@ -215,8 +219,9 @@ def recommend(request):
         for rec in recommendations:
             game = Game.objects.filter(name = rec[1]).first()
             games.append(game)
-    else:
-        games = gamesRecommendationBasedOnLikedGenres(principal)
+    
+    for game in games:
+        game.steamID = "http://store.steampowered.com/app/" + game.steamID
             
     return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
 

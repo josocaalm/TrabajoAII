@@ -20,7 +20,9 @@
     			<tbody>	
 					<td class="text-center"><img src={{r.coverString}} style="width: 231px; height: 87px" class="text-center"/></td>
 					<td class="text-center"> {{r.name}} </td>
-					<td class="text-center"> {{r.steamID}} </td>
+					<td class="text-center">
+						<button class="btn btn-success form-control" type="submit"><a href={{r.steamID}}>See in Steam</a></button>
+					</td>
 				</tbody>
 				{% endfor %}
 		</table>
