@@ -6,8 +6,8 @@ from django.shortcuts import render_to_response
 from TrabajoAII_app.models import Game, Rating, UserApp, Genre
 from django.template import RequestContext
 from TrabajoAII_app.forms import UserForm, ContactForm, LoginForm
-from TrabajoAII_app.recommendations_content_based import getRecommendedItems, calculateSimilarItems
-from TrabajoAII_app.recommendations_collaborative_filtering import gamesRecommendationBasedOnLikedGenres
+from TrabajoAII_app.recommendations_collaborative_filtering import getRecommendedItems, calculateSimilarItems
+from TrabajoAII_app.recommendations_knowledge_based import gamesRecommendationBasedOnLikedGenres
 from tf2outpost.gameSearch import fromTF2OutpostIDToSteamID
 from launch.launch import launch_game_list_search, launch_steam_best_offer, launch_tf2outpost_offer_search
 from django.contrib import auth
@@ -15,7 +15,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login
 from utilities.auxFunctions import quitWebdriver
-from TrabajoAII_app.recommendations_hybrid import hybridRecommendation
 
 def cover(request):
     user= request.user
@@ -199,11 +198,8 @@ def recommend(request):
     user = request.user
     principal = UserApp.objects.filter(username = user.username).first()
     
-    if UserApp.objects.count() <= 100:
-        collabFiltRecom = gamesRecommendationBasedOnLikedGenres(principal)
-        games = hybridRecommendation(collabFiltRecom)
-    else:
-        ratingDic1 = {}
+    if UserApp.objects.count() >= 100:
+        ratingDic1 = {}    
            
         for u in UserApp.objects.all():
             ratings = Rating.objects.all().filter(userApp = u)
@@ -219,9 +215,8 @@ def recommend(request):
         for rec in recommendations:
             game = Game.objects.filter(name = rec[1]).first()
             games.append(game)
-    
-    for game in games:
-        game.steamID = "http://store.steampowered.com/app/" + game.steamID
+    else:
+        games = gamesRecommendationBasedOnLikedGenres(principal)
             
     return render_to_response('recommend.html', {'recommendations':games, "recommend":"active", "user":user})
 
